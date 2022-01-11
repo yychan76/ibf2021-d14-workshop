@@ -74,7 +74,7 @@ public class ContactController {
         logger.info("Phone: {}", contact.getPhone());
 
         try {
-            // contactsRepository.update(contact);
+            contactsRepository.update(contact);
             return "contact";
         } catch (ResourceNotFoundException e) {
             throw new ResponseStatusException(

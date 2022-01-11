@@ -75,4 +75,13 @@ public class ContactsRedis implements RedisRepo {
             .map(Contact.class::cast)
             .toList();
     }
+
+    public void update(Contact contact) {
+        Contact retrivedContact = findById(contact.getId());
+        if (retrivedContact != null) {
+            save(retrivedContact);
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
 }
