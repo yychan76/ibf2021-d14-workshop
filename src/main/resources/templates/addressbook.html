@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Book</title>
+</head>
+<body>
+    <table>
+        <caption>Address Book Contact Items</caption>
+        <thead>
+            <tr>
+                <th scope="col">UserID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+            </tr>
+        </thead>
+        <tr th:each="contact : ${contactsList}">
+            <td th:text="${contact.id}"></td>
+            <td th:text="${contact.name}"></td>
+            <td th:text="${contact.email}"></td>
+            <td th:text="${contact.phone}"></td>
+            <td><a th:href="@{'/contact/' + ${contact.id}}"><button>Edit Contact</button></a></td>
+        </tr>
+    </table>
+    <a href="/addcontact">
+        <button>Add New Contact</button>
+    </a>
+    <footer>This is powered by Redis database</footer>
+</body>
+</html>

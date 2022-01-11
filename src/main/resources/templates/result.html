@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Result</h1>
+    <!-- since this is a view rendered by the createContact method in the
+        ContactController and we do not need to collect any form data here,
+        we do not need to declare the object here with ${} but can use
+        the object that is already added to the model -->
+    <p th:text="'id: ' + ${contact.id}" />
+    <p th:text="'name: ' + ${contact.name}" />
+    <p th:text="'email: ' + ${contact.email}" />
+    <p th:text="'phone: ' + ${contact.phone}" />
+    <a href="/addcontact">
+        <button>Save another contact</button>
+    </a>
+    <br>
+    <a href="/">
+        <button>View Address Book</button>
+    </a>
+</body>
+</html>
