@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import nus.edu.sg.workshop14.error.ResourceNotFoundException;
 import nus.edu.sg.workshop14.model.Contact;
 
 @Service
@@ -31,7 +32,12 @@ public class ContactsRedis implements RedisRepo {
 
     @Override
     public Contact findById(final String contactId) {
-        return (Contact) redisTemplate.opsForHash().get(CONTACT_CACHE, contactId);
+        Contact retrievedContact = (Contact) redisTemplate.opsForHash().get(CONTACT_CACHE, contactId);
+        // logger.info(String.valueOf(retrievedContact));
+        if (retrievedContact == null) {
+            throw new ResourceNotFoundException();
+        }
+        return retrievedContact;
     }
 
     @Override
