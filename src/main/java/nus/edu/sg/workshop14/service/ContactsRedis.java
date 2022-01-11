@@ -79,6 +79,9 @@ public class ContactsRedis implements RedisRepo {
     public void update(Contact contact) {
         Contact retrivedContact = findById(contact.getId());
         if (retrivedContact != null) {
+            retrivedContact.setName(contact.getName());
+            retrivedContact.setEmail(contact.getEmail());
+            retrivedContact.setPhone(contact.getPhone());
             save(retrivedContact);
         } else {
             throw new ResourceNotFoundException();
