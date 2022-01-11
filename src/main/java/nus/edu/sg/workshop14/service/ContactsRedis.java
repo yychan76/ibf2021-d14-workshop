@@ -18,7 +18,7 @@ import nus.edu.sg.workshop14.model.Contact;
 public class ContactsRedis implements RedisRepo {
     private static final Logger logger = LoggerFactory.getLogger(ContactsRedis.class);
     private static final String CONTACT_CACHE = "CONTACTS";
-    private static final String CONTACTIDS_LIST = "CONTACT_IDS";
+    private static final String CONTACT_IDS = "CONTACT_IDS";
 
     @Autowired
     RedisTemplate<String, Object> redisTemplate;
@@ -26,7 +26,10 @@ public class ContactsRedis implements RedisRepo {
     @Override
     public void save(final Contact contact) {
         logger.info("Saving to ID: {}", contact.getId());
-        redisTemplate.opsForList().leftPush(CONTACTIDS_LIST, contact.getId());
+        Long existingId = redisTemplate.opsForList().indexOf(CONTACT_IDS, contact.getId());
+        if (existingId == null) {
+            redisTemplate.opsForList().leftPush(CONTACT_IDS, contact.getId());
+        }
         redisTemplate.opsForHash().put(CONTACT_CACHE, contact.getId(), contact);
     }
 
@@ -54,7 +57,7 @@ public class ContactsRedis implements RedisRepo {
             // return empty list
             return new ArrayList<>();
         }
-        List<Object> contactIds = redisTemplate.opsForList().range(CONTACTIDS_LIST, startIdx, endIdx);
+        List<Object> contactIds = redisTemplate.opsForList().range(CONTACT_IDS, startIdx, endIdx);
         if (contactIds != null) {
             return redisTemplate.opsForHash().multiGet(CONTACT_CACHE, contactIds).stream()
                 .filter(Contact.class::isInstance)
