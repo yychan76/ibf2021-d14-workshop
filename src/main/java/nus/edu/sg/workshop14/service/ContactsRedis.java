@@ -25,7 +25,7 @@ public class ContactsRedis implements RedisRepo {
 
     @Override
     public void save(final Contact contact) {
-        logger.info(contact.getId());
+        logger.info("Saving to ID: {}", contact.getId());
         redisTemplate.opsForList().leftPush(CONTACTIDS_LIST, contact.getId());
         redisTemplate.opsForHash().put(CONTACT_CACHE, contact.getId(), contact);
     }
